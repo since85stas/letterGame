@@ -38,6 +38,9 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     public StarAssets starAssets;
+    public LettersAsserts lettersAsserts;
+    public BackAsserts backAsserts;
+    public HeroAsserts heroAsserts;
     public TileAssets tileAssets;
 //    public SkinAssets skinAssets;
     public LockAssets lockAssets;
@@ -51,10 +54,13 @@ public class Assets implements Disposable, AssetErrorListener {
 
         assetManager.load("ship64.png"   ,Texture.class);
 
+        assetManager.load("bg.png", Texture.class);
+        assetManager.load("star12.tga", Texture.class);
+
         assetManager.load("A_letter.png"   ,Texture.class);
         assetManager.load("B_letter.png"   ,Texture.class);
-        assetManager.load("pop3.ogg", Sound.class);
-        assetManager.load("pingpongbat.ogg",Sound.class);
+//        assetManager.load("pop3.ogg", Sound.class);
+//        assetManager.load("pingpongbat.ogg",Sound.class);
 
 //        assetManager.load("skin/craftacular-ui.json",Skin.class);
 
@@ -65,17 +71,23 @@ public class Assets implements Disposable, AssetErrorListener {
         Texture charAtexture = assetManager.get("A_letter.png");
         Texture charBtexture = assetManager.get("B_letter.png");
 
+        Texture backTexture = assetManager.get("bg.png");
+        Texture srtarBackT = assetManager.get("star12.tga");
+
         Texture heroTexture = assetManager.get("ship64.png");
 
-        Sound bubbleSound = assetManager.get("pop3.ogg");
-        Sound tookSound   = assetManager.get("pingpongbat.ogg");
+//        Sound bubbleSound = assetManager.get("pop3.ogg");
+//        Sound tookSound   = assetManager.get("pingpongbat.ogg");
 //        Skin mySkin = assetManager.get("skin/craftacular-ui.json");
 
 //        enemyAssets = new EnemyAssets(walkTexture);
         starAssets       = new StarAssets(starTexture);
+        lettersAsserts   = new LettersAsserts(charAtexture,charBtexture);
+        backAsserts      = new BackAsserts(backTexture,srtarBackT);
+        heroAsserts      = new HeroAsserts(heroTexture);
 //        skinAssets       = new SkinAssets(mySkin);
         lockAssets       = new LockAssets(lockTexture);
-        soundsBase       = new SoundsBase(bubbleSound,tookSound);
+//        soundsBase       = new SoundsBase(bubbleSound,tookSound);
 //        crosshairAssets = new CrosshairAssets(crossTexture);
 
 
@@ -138,6 +150,17 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    public class BackAsserts{
+
+        public final Texture backText;
+        public final Texture starText;
+
+        public BackAsserts(Texture back, Texture star) {
+            backText = back;
+            starText = star;
+        }
+    }
+
     public class HeroAsserts{
 
         public final Texture textHero;
@@ -178,7 +201,6 @@ public class Assets implements Disposable, AssetErrorListener {
             Gdx.app.log(TAG,"animation load");
         }
     }
-
 
     public class SoundsBase {
         public Sound bubbleSound;

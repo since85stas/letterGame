@@ -1,6 +1,7 @@
 package stas.batura;
 
 import com.badlogic.gdx.graphics.Texture;
+import stas.batura.utils.Assets;
 
 public class EnglishAlphabet {
     public final static int A_LETTER = 0;
@@ -12,25 +13,25 @@ public class EnglishAlphabet {
     /**
      * Возвращяет текстуры буквы по ее порядковому номеру
      */
-    public Texture getTexture (int letterNumber) {
+    public Texture getTexture(int letterNumber) {
         Texture texture = null;
-        switch (letterNumber) {
-            case A_LETTER:
-                texture = new Texture("A_letter.png");
+        char ch = (char) ('a' + letterNumber);
+        switch (ch) {
+            case 'a':
+                texture = Assets.instance.lettersAsserts.textA;
                 break;
-            case B_LETTER:
-                texture = new Texture("B_letter.png");
+            case 'b':
+                texture = Assets.instance.lettersAsserts.textB;
                 break;
-
         }
         return texture;
     }
 
 
-    public int getLetterNumber (char letter) {
+    public int getLetterNumber(char letter) {
         int number = -1;
-
 
         return number;
     }
+
 }

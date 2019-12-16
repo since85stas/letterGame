@@ -5,14 +5,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.sun.tools.javac.util.Assert;
+import stas.batura.utils.Assets;
 
 public class Background {
     class Star {
+
         Vector2 position; // position.x,position.y
         float speed ;
 
         public Star() {
-            position = new Vector2(MathUtils.random(0,Gdx.graphics.getWidth()), MathUtils.random(0,Gdx.graphics.getBackBufferHeight()));
+            position = new Vector2(MathUtils.random(0,Gdx.graphics.getWidth()), MathUtils.random(0,Gdx.graphics.getHeight()));
             speed = MathUtils.random(0.5f,2f);
         }
 
@@ -34,8 +37,8 @@ public class Background {
     private int height;
 
     public Background() {
-        textureSpace = new Texture("bg.png");
-        textureStar  = new Texture("star12.tga");
+        textureSpace = Assets.instance.backAsserts.backText;
+        textureStar  = Assets.instance.backAsserts.starText;
         stars = new Star[340];
         for (int i =0; i<stars.length;i++) {
             stars[i] = new Star();

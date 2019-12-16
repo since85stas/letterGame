@@ -12,6 +12,7 @@ public class GameLetter {
     Vector2 position;
     float speed;
     int letterNumber;  // номер буквы в алфавите
+    char letterChar;
     EnglishAlphabet alphabet;
 
     private int width;
@@ -22,11 +23,11 @@ public class GameLetter {
         return letterNumber;
     }
 
-    public GameLetter() {
-        texture = new Texture("A_letter.png");
-        position = new Vector2(MathUtils.random(1280,2560), MathUtils.random(50,height - 50));
-        speed = MathUtils.random(3.f,5.f);
-    }
+//    public GameLetter() {
+//        texture = new Texture("A_letter.png");
+//        position = new Vector2(MathUtils.random(1280,2560), MathUtils.random(50,height - 50));
+//        speed = MathUtils.random(3.f,5.f);
+//    }
 
     public GameLetter( int letterNumber) {
         width = Gdx.graphics.getWidth();
@@ -35,7 +36,7 @@ public class GameLetter {
 
         alphabet = new EnglishAlphabet();
         texture = alphabet.getTexture(letterNumber);
-        position = new Vector2(MathUtils.random(1280,2560), MathUtils.random(0,height));
+        position = new Vector2(MathUtils.random(width,width*2), MathUtils.random(0,height));
         this.letterNumber = letterNumber;
         speed = MathUtils.random(3.f,7.f);
     }
@@ -45,7 +46,7 @@ public class GameLetter {
     }
 
     public void rebuid (){
-        position.set(MathUtils.random(1280,2560), MathUtils.random(0,height));
+        position.set(MathUtils.random(width,width*2), MathUtils.random(0,height));
         speed = MathUtils.random(3.f,7.f);
     }
 
