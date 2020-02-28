@@ -1,9 +1,10 @@
-package stas.batura;
+package stas.batura.draw;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Hero {
@@ -12,17 +13,22 @@ public class Hero {
     float speed;
     private int width;
     private int height;
+    private int lives = 1;
+    int herosize;
+    public Rectangle hitBox;
 
     public Hero() {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
+        herosize = Math.round(height * 0.1f) ;
         texture = new Texture("ship64.png");
         position = new Vector2(100f,300f);
         speed = 5f;
+
     }
 
     public  void render (SpriteBatch batch) {
-        batch.draw(texture,position.x,position.y);
+        batch.draw(texture,position.x,position.y,herosize,herosize);
     }
 
     public void update () {
@@ -54,6 +60,9 @@ public class Hero {
                 position.y += speed;
             }
         }
+
+        // перемещаем рамку за игроком
+        hitBox = new Rectangle(position.x,position.y,herosize,herosize);
 
         if (position.x < 0) {
             position.x =0;

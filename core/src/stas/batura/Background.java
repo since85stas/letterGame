@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.sun.tools.javac.util.Assert;
 import stas.batura.utils.Assets;
 
 public class Background {
@@ -54,7 +53,10 @@ public class Background {
             if (MathUtils.random(0,300) < 2) {
                 scale *= 1.8f;
             }
-            batch.draw(textureStar,stars[i].position.x,stars[i].position.y,6,6,12,12,scale,scale,0,0,0,12,12,false,false);
+            batch.draw(textureStar,
+                    stars[i].position.x,
+                    stars[i].position.y,
+                    6,6,12,12,scale,scale,0,0,0,12,12,false,false);
         }
     }
 

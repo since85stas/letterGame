@@ -22,7 +22,11 @@ public class MyGdxGame extends Game {
 		AssetManager am = new AssetManager();
 		Assets.instance.init(am);
 
-		GameScreen gameScreen = new GameScreen();
+		startNewGame();
+	}
+
+	public void startNewGame() {
+		GameScreen gameScreen = new GameScreen(this);
 		setScreen(gameScreen);
 	}
 
