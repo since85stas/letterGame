@@ -2,8 +2,15 @@ package stas.batura.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
 import stas.batura.Background;
 import stas.batura.GoalWord;
 import stas.batura.MyGdxGame;
@@ -11,6 +18,8 @@ import stas.batura.alphabet.Alphabet;
 import stas.batura.alphabet.AplphabetConsts;
 import stas.batura.draw.GameLetter;
 import stas.batura.draw.Hero;
+import stas.batura.utils.Assets;
+import stas.batura.utils.LetterGenerator;
 import sun.rmi.runtime.Log;
 
 public class GameScreen implements Screen {
@@ -18,11 +27,15 @@ public class GameScreen implements Screen {
     MyGdxGame game;
 
     SpriteBatch batch;
+
+    Stage stage;
+
     Background background;
     Hero hero;
     Alphabet alphabet;
     GoalWord goalWord;
     GameLetter[] letters;
+    LetterGenerator letterGenerator;
 
     GameScreenHud gameScreenHud;
 
@@ -37,34 +50,30 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         batch = new SpriteBatch();
+        stage = new Stage(new ScreenViewport());
+
         background = new Background();
 
         alphabet = new Alphabet(AplphabetConsts.ENGLISH_ID);
         goalWord = new GoalWord("abracadabra");
-        hero = new Hero() ;
-        letters = new GameLetter[20];
+        letterGenerator = new LetterGenerator(goalWord,alphabet);
+        hero = new Hero();
+        letters = new GameLetter[14];
 
         gameScreenHud = new  GameScreenHud(this);
 
         for (int i = 0; i< letters.length; i++) {
-            letters[i] = new GameLetter(getRandomLetterStr(), alphabet);
+            letters[i] = letterGenerator.getNextLetter();
         }
+
+        Gdx.input.setInputProcessor(stage);
     }
 
-    private String getRandomLetterStr() {
-        int ran = MathUtils.random(0,1);
-        switch (ran) {
-            case 0:
-                return "a";
-            case 1:
-                return "b";
-        }
-        return "0";
-    }
+
 
     @Override
     public void render(float delta) {
-        update();
+        update(delta);
 //        Gdx.gl.glClearColor(0, 1, 0, 1);
 //        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
@@ -77,28 +86,32 @@ public class GameScreen implements Screen {
         batch.end();
 
         if (gameIsFinish) {
-            if (Gdx.input.isTouched()) {
-                game.startNewGame();
-            }
+//            if (Gdx.input.isTouched()) {
+//                game.startNewGame();
+//            }
+            addExitButton();
         }
+
+        stage.act();
+        stage.draw();
     }
 
-    public void update() {
+    public void update( float delta ) {
         if (!gameIsFinish) {
             background.update();
             hero.update();
             for (int i = 0; i < letters.length; i++) {
                 GameLetter currLetter = letters[i];
-                currLetter.update();
+                currLetter.update(delta);
                 if (hero.hitBox.overlaps(currLetter.hitBox)) {
                     gameIsFinish = checkCollision(currLetter);
                 }
             }
         } else {
             if (isWin) {
-                System.out.println("Winnnnnn");
+//                System.out.println("Winnnnnn");
             } else {
-                System.out.println("Loooose");
+//                System.out.println("Loooose");
             }
             finishGame();
         }
@@ -118,6 +131,28 @@ public class GameScreen implements Screen {
             gameFinish = goalWord.aswerIsIncorrect();
         }
         return gameFinish;
+    }
+
+    private void addExitButton() {
+        Label exitLable = new Label("Restart", new Label.LabelStyle(Assets.instance.resultFont,
+                Color.BLUE));
+
+        exitLable.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("Restart clicked");
+                game.startNewGame();
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+        exitLable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2 - 200);
+
+        stage.addActor(exitLable);
+
+        exitLable.setBounds(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2 - 200,
+                stage.getWidth(),stage.getHeight()
+        );
     }
 
     @Override

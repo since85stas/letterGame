@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import stas.batura.utils.Assets;
+
 public class Hero {
     Texture texture;
     Vector2 position;
@@ -20,8 +22,8 @@ public class Hero {
     public Hero() {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
-        herosize = Math.round(height * 0.1f) ;
-        texture = new Texture("ship64.png");
+        herosize = Math.round(height * 0.2f) ;
+        texture = Assets.instance.heroAsserts.textHero;
         position = new Vector2(100f,300f);
         speed = 5f;
 
@@ -47,22 +49,22 @@ public class Hero {
         }
 
         if (Gdx.input.isTouched()) {
-            if (Gdx.input.getX() < position.x + 32) {
+            if (Gdx.input.getX() < position.x + 22) {
                 position.x -= speed;
             }
-            if (Gdx.input.getX() > position.x + 32) {
+            if (Gdx.input.getX() > position.x + 22) {
                 position.x += speed;
             }
-            if (height - Gdx.input.getY() < position.y + 32) {
+            if (height - Gdx.input.getY() < position.y + 22) {
                 position.y -= speed;
             }
-            if (height - Gdx.input.getY() > position.y + 32) {
+            if (height - Gdx.input.getY() > position.y + 22) {
                 position.y += speed;
             }
         }
 
         // перемещаем рамку за игроком
-        hitBox = new Rectangle(position.x,position.y,herosize,herosize);
+        hitBox = new Rectangle(position.x,position.y,herosize * 0.8f,herosize *0.8f);
 
         if (position.x < 0) {
             position.x =0;

@@ -34,6 +34,8 @@ public class Alphabet {
             case "b":
                 texture = Assets.instance.lettersAsserts.textB;
                 break;
+            case GARBAGE_LETTER:
+                texture = Assets.instance.garbAsserts.getTexture();
         }
         return texture;
     }

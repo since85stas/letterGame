@@ -46,6 +46,14 @@ public class GoalWord {
         }
     }
 
+    public List<String> getMissingList() {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < missingLettersNum.size(); i++) {
+            list.add(String.valueOf( goalWord.charAt(missingLettersNum.get(i))));
+        }
+        return list;
+    }
+
     public boolean aswerIsIncorrect() {
         return true;
     }

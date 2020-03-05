@@ -6,15 +6,15 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
+import stas.batura.utils.Assets;
+
 public class GameScreenHud {
 
-    boolean isEnd;
+    boolean isEnd = false;
 
     String endText;
 
-    BitmapFont hudFont;
 
-    BitmapFont resultFont;
 
     GameScreen gameScreen;
 
@@ -22,14 +22,12 @@ public class GameScreenHud {
 
     public GameScreenHud ( GameScreen gameScreen) {
         this.gameScreen = gameScreen;
-        generateHudFont();
-        generateResultFont();
     }
 
     public void render (Batch batch) {
-        hudFont.draw(batch,gameScreen.goalWord.goalWord , Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight());
+        Assets.instance.hudFont.draw(batch,gameScreen.goalWord.goalWord , Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight());
         if (isEnd) {
-            resultFont.draw(batch,endText , Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+            Assets.instance.resultFont.draw(batch,endText , Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
         }
     }
 
@@ -42,27 +40,5 @@ public class GameScreenHud {
         }
     }
 
-    private void generateHudFont() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("zorque.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 45;
-        parameter.borderColor = Color.BLACK;
-        parameter.borderWidth = 2;
-        parameter.shadowOffsetX = 3;
-        parameter.shadowOffsetY = -3;
-        parameter.shadowColor = Color.BLACK;
-        hudFont = generator.generateFont(parameter);
-    }
 
-    private void generateResultFont() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("zorque.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 80;
-        parameter.borderColor = Color.BLACK;
-        parameter.borderWidth = 2;
-        parameter.shadowOffsetX = 3;
-        parameter.shadowOffsetY = -3;
-        parameter.shadowColor = Color.BLACK;
-        resultFont = generator.generateFont(parameter);
-    }
 }

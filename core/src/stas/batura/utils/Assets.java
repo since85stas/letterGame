@@ -22,6 +22,10 @@ import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Disposable;
 
+import java.sql.Driver;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by seeyo on 03.12.2018.
@@ -41,10 +45,15 @@ public class Assets implements Disposable, AssetErrorListener {
     public LettersAsserts lettersAsserts;
     public BackAsserts backAsserts;
     public HeroAsserts heroAsserts;
+    public GarbAsserts garbAsserts;
     public TileAssets tileAssets;
 //    public SkinAssets skinAssets;
     public LockAssets lockAssets;
     public SoundsBase soundsBase;
+
+    public BitmapFont hudFont;
+
+    public BitmapFont resultFont;
 
     public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -52,13 +61,15 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("mini_star.png", Pixmap.class);
         assetManager.load("mini_lock.png", Texture.class);
 
-        assetManager.load("ship64.png"   ,Texture.class);
+        assetManager.load("fish.png"   ,Texture.class);
 
         assetManager.load("bg.png", Texture.class);
         assetManager.load("star12.tga", Texture.class);
 
         assetManager.load("A_letter.png"   ,Texture.class);
         assetManager.load("B_letter.png"   ,Texture.class);
+        assetManager.load("asteroid64.png"   ,Texture.class);
+        assetManager.load("roket.png"   ,Texture.class);
 //        assetManager.load("pop3.ogg", Sound.class);
 //        assetManager.load("pingpongbat.ogg",Sound.class);
 
@@ -74,7 +85,7 @@ public class Assets implements Disposable, AssetErrorListener {
         Texture backTexture = assetManager.get("bg.png");
         Texture srtarBackT = assetManager.get("star12.tga");
 
-        Texture heroTexture = assetManager.get("ship64.png");
+        Texture heroTexture = assetManager.get("fish.png");
 
 //        Sound bubbleSound = assetManager.get("pop3.ogg");
 //        Sound tookSound   = assetManager.get("pingpongbat.ogg");
@@ -90,7 +101,17 @@ public class Assets implements Disposable, AssetErrorListener {
 //        soundsBase       = new SoundsBase(bubbleSound,tookSound);
 //        crosshairAssets = new CrosshairAssets(crossTexture);
 
+        // creating garbage
+        Texture garb1 = assetManager.get("asteroid64.png");
+        Texture garb2 = assetManager.get("roket.png");
+        List<Texture> garbL = new ArrayList<>();
+        garbL.add(garb1);
+        garbL.add(garb2);
+        garbAsserts = new GarbAsserts(garbL);
 
+        generateHudFont();
+
+        generateResultFont();
     }
 
 
@@ -105,7 +126,7 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
 
-    public class TileAssets {
+    class TileAssets {
         private static final int FRAME_COLS = 3; // #1
         private static final int FRAME_ROWS = 1; // #2
         public Texture texture1;
@@ -127,7 +148,7 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
-    public class BrokenAssets {
+    class BrokenAssets {
         //        public final Animation<TextureRegion> walkAnimation;
         public final Texture brokenTexture;
         TextureRegion[] walkFrames; // #5
@@ -161,6 +182,25 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    public class GarbAsserts {
+
+        private List<Texture> garbageList;
+
+          private GarbAsserts (List<Texture> garbageL) {
+              garbageList = garbageL;
+          }
+
+          public Texture getTexture() {
+              double oneProb = 1./garbageList.size();
+              DistributedRandomNumberGenerator generator = new DistributedRandomNumberGenerator();
+              for (int i = 0; i < garbageList.size(); i++) {
+                  generator.addNumber(i,oneProb);
+              }
+              int lettN = generator.getDistributedRandomNumber();
+              return garbageList.get(lettN);
+          }
+    }
+
     public class HeroAsserts{
 
         public final Texture textHero;
@@ -170,7 +210,7 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
-    public class StarAssets {
+    class StarAssets {
         public Texture texture;
         public Texture achieveTexture;
         public Texture menuTexture;
@@ -194,7 +234,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
     }
 
-    public class LockAssets {
+    class LockAssets {
         public Texture texture;
         public LockAssets(Texture texture) {
             this.texture = texture;
@@ -202,7 +242,7 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
-    public class SoundsBase {
+    class SoundsBase {
         public Sound bubbleSound;
         public Sound tookSound;
         public SoundsBase (Sound bubbleSound, Sound tookSound) {
@@ -213,6 +253,28 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
 
+    private void generateHudFont() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("zorque.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 45;
+        parameter.borderColor = Color.BLACK;
+        parameter.borderWidth = 2;
+        parameter.shadowOffsetX = 3;
+        parameter.shadowOffsetY = -3;
+        parameter.shadowColor = Color.BLACK;
+        hudFont = generator.generateFont(parameter);
+    }
 
+    private void generateResultFont() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("zorque.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 80;
+        parameter.borderColor = Color.BLACK;
+        parameter.borderWidth = 2;
+        parameter.shadowOffsetX = 3;
+        parameter.shadowOffsetY = -3;
+        parameter.shadowColor = Color.BLACK;
+        resultFont = generator.generateFont(parameter);
+    }
 
 }

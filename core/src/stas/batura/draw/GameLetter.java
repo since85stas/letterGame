@@ -26,6 +26,8 @@ public class GameLetter {
 
     int letterSize;
 
+    float time = 0;
+
     public Rectangle hitBox;
 //    }
 
@@ -39,9 +41,9 @@ public class GameLetter {
 //        alphabet = new EnglishAlphabet();
 //        alphabet = new Alphabet(AplphabetConsts.ENGLISH_ID);
         texture = alphabet.getTextureByLetter(letterString);
-        position = new Vector2(MathUtils.random(width,width * 2), MathUtils.random(0,height));
+        position = new Vector2(MathUtils.random(width,width * 2), MathUtils.random(0,height - 50));
         this.letterString = letterString;
-        speed = MathUtils.random(3.f,7.f);
+        speed = MathUtils.random(2.f,5.f);
     }
 
     public void render (SpriteBatch batch) {
@@ -54,10 +56,12 @@ public class GameLetter {
         speed = MathUtils.random(3.f,7.f);
     }
 
-    public  void  update(){
+    public  void  update( float dt ){
+        time += dt;
         position.x = position.x - speed;
+        position.y = position.y ;
         // перемещаем рамку за игроком
-        hitBox = new Rectangle(position.x,position.y,letterSize,letterSize * ratio);
+        hitBox = new Rectangle(position.x,position.y,letterSize * 0.8f,letterSize * ratio* 0.8f);
         if(position.x < -100) {
             rebuild();
         }

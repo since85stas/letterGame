@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AplphabetConsts {
+    public static final String GARBAGE_LETTER = "garb";
+
     public static final int  ENGLISH_ID = 0;
     static final String ENGLISH_NAME = "English";
 
