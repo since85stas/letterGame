@@ -2,7 +2,12 @@ package stas.batura;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * Класс описывает слово которое надо собрать в задании
@@ -52,6 +57,14 @@ public class GoalWord {
             list.add(String.valueOf( goalWord.charAt(missingLettersNum.get(i))));
         }
         return list;
+    }
+
+    public HashSet<String> getWordLettersList() {
+        HashSet<String> set = new HashSet<>();
+        for (int i = 0; i < goalWord.length(); i++) {
+            set.add(String.valueOf( goalWord.charAt(i)));
+        }
+        return set;
     }
 
     public boolean aswerIsIncorrect() {

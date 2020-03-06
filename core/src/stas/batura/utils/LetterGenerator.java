@@ -3,6 +3,7 @@ package stas.batura.utils;
 import com.badlogic.gdx.math.MathUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import stas.batura.GoalWord;
@@ -12,11 +13,11 @@ import stas.batura.draw.GameLetter;
 
 public class LetterGenerator {
 
-    public final double LETTERS_EDGE = 0.2;
+    public final double LETTERS_EDGE = 0.4;
 
     private String goalLetter;
 
-    private List<String>  levelLetters;
+    private List<String> levelLetters;
 
     private Alphabet alphabet;
 
@@ -25,9 +26,11 @@ public class LetterGenerator {
         goalLetter = goalWord.getNextGoalLetter();
         this.alphabet = alphabet;
 
-        levelLetters = new ArrayList<>();
-        levelLetters.add("a");
-        levelLetters.add("b");
+        levelLetters = new ArrayList<>();;
+        for (String s: goalWord.getWordLettersList()
+             ) {
+            levelLetters.add(s);
+        }
     }
 
     public GameLetter getNextLetter () {

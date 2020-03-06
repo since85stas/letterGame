@@ -21,10 +21,13 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Disposable;
+import static stas.batura.alphabet.AplphabetConsts.*;
 
 import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.List;
+
+import stas.batura.alphabet.AplphabetConsts;
 
 
 /**
@@ -55,6 +58,8 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public BitmapFont resultFont;
 
+    public EnglAlphAssets englAlphAssets;
+
     public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
         assetManager.setErrorListener(this);
@@ -70,6 +75,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("B_letter.png"   ,Texture.class);
         assetManager.load("asteroid64.png"   ,Texture.class);
         assetManager.load("roket.png"   ,Texture.class);
+        assetManager.load("english_alph.png"   ,Texture.class);
 //        assetManager.load("pop3.ogg", Sound.class);
 //        assetManager.load("pingpongbat.ogg",Sound.class);
 
@@ -86,6 +92,8 @@ public class Assets implements Disposable, AssetErrorListener {
         Texture srtarBackT = assetManager.get("star12.tga");
 
         Texture heroTexture = assetManager.get("fish.png");
+
+        Texture alphText = assetManager.get("english_alph.png");
 
 //        Sound bubbleSound = assetManager.get("pop3.ogg");
 //        Sound tookSound   = assetManager.get("pingpongbat.ogg");
@@ -108,6 +116,8 @@ public class Assets implements Disposable, AssetErrorListener {
         garbL.add(garb1);
         garbL.add(garb2);
         garbAsserts = new GarbAsserts(garbL);
+
+        englAlphAssets = new EnglAlphAssets(alphText);
 
         generateHudFont();
 
@@ -252,11 +262,47 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    public class EnglAlphAssets {
+        private static final int FRAME_COLS = 4; // #1
+        private static final int FRAME_ROWS = 7; // #2
+
+        List<TextureRegion> letters; // #5
+
+        List<String> alphabet;
+
+        private EnglAlphAssets (Texture texture) {
+            TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth()/FRAME_COLS,
+                    texture.getHeight()/FRAME_ROWS); // #10
+
+            alphabet = getCharacters(ENGLISH_ID);
+//            walkFrames = new TextureRegion[FRAME_COLS + FRAME_ROWS];
+            int index = 0;
+            letters = new ArrayList<>();
+            for (int i = 0; i < FRAME_ROWS; i++) {
+                for (int j = 0; j < FRAME_COLS; j++) {
+                    TextureRegion reg = tmp[i][j];
+                    letters.add(reg);
+                }
+            }
+            Gdx.app.log(TAG,"animation let load");
+        }
+
+        public TextureRegion getLetterTexture (String lett) {
+            int id = alphabet.indexOf(lett);
+            if (id >= 0 && id < 27 ) {
+                return letters.get(id);
+            } else {
+                IndexOutOfBoundsException exception = new IndexOutOfBoundsException();
+                throw exception;
+            }
+        }
+    }
+
 
     private void generateHudFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("zorque.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 45;
+        parameter.size = 70;
         parameter.borderColor = Color.BLACK;
         parameter.borderWidth = 2;
         parameter.shadowOffsetX = 3;
@@ -268,7 +314,7 @@ public class Assets implements Disposable, AssetErrorListener {
     private void generateResultFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("zorque.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 80;
+        parameter.size = 70;
         parameter.borderColor = Color.BLACK;
         parameter.borderWidth = 2;
         parameter.shadowOffsetX = 3;

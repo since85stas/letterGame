@@ -1,6 +1,7 @@
 package stas.batura.alphabet;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.util.List;
 
@@ -23,20 +24,25 @@ public class Alphabet {
     }
 
     /**
-     * Возвращяет текстуры буквы по ее порядковому номеру
+     * Возвращяет текстуры буквы по ее символу
      */
-    public Texture getTextureByLetter(String letter) {
-        Texture texture = null;
-        switch (letter) {
-            case "a":
-                texture = Assets.instance.lettersAsserts.textA;
-                break;
-            case "b":
-                texture = Assets.instance.lettersAsserts.textB;
-                break;
-            case GARBAGE_LETTER:
-                texture = Assets.instance.garbAsserts.getTexture();
+    public TextureRegion getTextureByLetter(String letter) {
+        TextureRegion texture = null;
+//        switch (letter) {
+//            case "a":
+//                texture = Assets.instance.lettersAsserts.textA;
+//                break;
+//            case "b":
+//                texture = Assets.instance.lettersAsserts.textB;
+//                break;
+//            case GARBAGE_LETTER:
+//                texture = Assets.instance.garbAsserts.getTexture();
+//        }
+        if (letter.equals(GARBAGE_LETTER)) {
+            Texture textureIn = Assets.instance.garbAsserts.getTexture();
+            texture = new TextureRegion(textureIn);
         }
+        else texture = Assets.instance.englAlphAssets.getLetterTexture(letter);
         return texture;
     }
 

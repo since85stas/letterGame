@@ -3,6 +3,7 @@ package stas.batura.draw;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -12,7 +13,7 @@ import stas.batura.alphabet.AplphabetConsts;
 
 public class GameLetter {
 
-    Texture texture;
+    TextureRegion texture;
     Vector2 position;
     float speed;
 //    int letterNumber;  // номер буквы в алфавите
@@ -36,14 +37,14 @@ public class GameLetter {
         height = Gdx.graphics.getHeight();
         ratio = width/height;
 
-        letterSize = width/17;
+        letterSize = width/16;
 
 //        alphabet = new EnglishAlphabet();
 //        alphabet = new Alphabet(AplphabetConsts.ENGLISH_ID);
         texture = alphabet.getTextureByLetter(letterString);
-        position = new Vector2(MathUtils.random(width,width * 2), MathUtils.random(0,height - 50));
+        position = new Vector2(MathUtils.random(width*1,width * 4), MathUtils.random(0,height - 50));
         this.letterString = letterString;
-        speed = MathUtils.random(2.f,5.f);
+        speed = MathUtils.random(4.f,7.f);
     }
 
     public void render (SpriteBatch batch) {
@@ -52,8 +53,8 @@ public class GameLetter {
     }
 
     public void rebuild(){
-        position.set(MathUtils.random(width,width*2), MathUtils.random(0,height));
-        speed = MathUtils.random(3.f,7.f);
+        position.set(MathUtils.random(width*2,width * 4), MathUtils.random(0,height - 50));
+        speed = MathUtils.random(4.f,7.f);
     }
 
     public  void  update( float dt ){

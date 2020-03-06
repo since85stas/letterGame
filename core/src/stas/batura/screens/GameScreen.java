@@ -11,6 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import stas.batura.Background;
 import stas.batura.GoalWord;
 import stas.batura.MyGdxGame;
@@ -55,10 +59,18 @@ public class GameScreen implements Screen {
         background = new Background();
 
         alphabet = new Alphabet(AplphabetConsts.ENGLISH_ID);
-        goalWord = new GoalWord("abracadabra");
+        List<String> words = new ArrayList<String>();
+        words.add("abcf");
+        words.add("bcade");
+        words.add("cadef");
+        words.add("dacef");
+        words.add("acbef");
+        Random random = new Random();
+        int ran = random.nextInt(4);
+        goalWord = new GoalWord(words.get(ran));
         letterGenerator = new LetterGenerator(goalWord,alphabet);
         hero = new Hero();
-        letters = new GameLetter[14];
+        letters = new GameLetter[16];
 
         gameScreenHud = new  GameScreenHud(this);
 

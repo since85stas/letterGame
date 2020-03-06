@@ -22,7 +22,7 @@ public class Hero {
     public Hero() {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
-        herosize = Math.round(height * 0.2f) ;
+        herosize = Math.round(height * 0.15f) ;
         texture = Assets.instance.heroAsserts.textHero;
         position = new Vector2(100f,300f);
         speed = 5f;

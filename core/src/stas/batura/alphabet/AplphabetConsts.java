@@ -13,23 +13,25 @@ public class AplphabetConsts {
     public static final int RUSSIAN_ID = 1;
     static final String RUSSIAN_NAME = "English";
 
-    static List<String> getCharacters (int id) {
+    public static List<String> getCharacters (int id) {
         List<String> list = new ArrayList<>();
         switch (id) {
             case ENGLISH_ID: {
                 String alp = "abcdefghijklmnopqrstuvwxyz";
                 list = Arrays.asList(alp.split(""));
+                return list;
             }
             case RUSSIAN_ID: {
                 String alp = "абвгдежзийклмнопрстуфхцчшщъыьэюя";
                 list = Arrays.asList(alp.split(""));
+                return list;
             }
             default: {
                 String alp = "abcdefghijklmnopqrstuvwxyz";
                 list = Arrays.asList(alp.split(""));
+                return list;
             }
         }
-        return list;
     }
 
     static String getAlphabetName(int id) {
