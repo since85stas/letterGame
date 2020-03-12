@@ -9,7 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,8 @@ public class GameScreen implements Screen {
 
     SpriteBatch batch;
 
+    Viewport viewport;
+
     Stage stage;
 
     Background background;
@@ -42,6 +46,8 @@ public class GameScreen implements Screen {
     LetterGenerator letterGenerator;
 
     GameScreenHud gameScreenHud;
+
+    OnscreenControls onscreenControls;
 
     boolean gameIsFinish = false;
 
@@ -74,11 +80,17 @@ public class GameScreen implements Screen {
 
         gameScreenHud = new  GameScreenHud(this);
 
+        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        onscreenControls = new OnscreenControls(hero, viewport);
+
         for (int i = 0; i< letters.length; i++) {
             letters[i] = letterGenerator.getNextLetter();
         }
 
-        Gdx.input.setInputProcessor(stage);
+            Gdx.input.setInputProcessor(onscreenControls);
+
+//            Gdx.input.setInputProcessor(stage);
     }
 
 
@@ -98,11 +110,11 @@ public class GameScreen implements Screen {
         batch.end();
 
         if (gameIsFinish) {
-//            if (Gdx.input.isTouched()) {
-//                game.startNewGame();
-//            }
+            Gdx.input.setInputProcessor(stage);
             addExitButton();
         }
+
+        onscreenControls.render(batch);
 
         stage.act();
         stage.draw();
@@ -156,6 +168,8 @@ public class GameScreen implements Screen {
                 game.startNewGame();
                 return super.touchDown(event, x, y, pointer, button);
             }
+
+
         });
 
         exitLable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2 - 200);

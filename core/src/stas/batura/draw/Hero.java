@@ -19,6 +19,11 @@ public class Hero {
     int herosize;
     public Rectangle hitBox;
 
+    public boolean leftButtonPressed ;
+    public boolean rightButtonPressed ;
+    public boolean upButtonPressed ;
+    public boolean downButtonPressed ;
+
     public Hero() {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
@@ -48,20 +53,19 @@ public class Hero {
             position.y += speed;
         }
 
-        if (Gdx.input.isTouched()) {
-            if (Gdx.input.getX() < position.x + 22) {
+
+            if (leftButtonPressed) {
                 position.x -= speed;
             }
-            if (Gdx.input.getX() > position.x + 22) {
+            if (rightButtonPressed) {
                 position.x += speed;
             }
-            if (height - Gdx.input.getY() < position.y + 22) {
+            if (upButtonPressed) {
                 position.y -= speed;
             }
-            if (height - Gdx.input.getY() > position.y + 22) {
+            if (downButtonPressed) {
                 position.y += speed;
             }
-        }
 
         // перемещаем рамку за игроком
         hitBox = new Rectangle(position.x,position.y,herosize * 0.8f,herosize *0.8f);

@@ -60,6 +60,8 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public EnglAlphAssets englAlphAssets;
 
+    public ControlArrows controlArrows;
+
     public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
         assetManager.setErrorListener(this);
@@ -76,6 +78,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("asteroid64.png"   ,Texture.class);
         assetManager.load("roket.png"   ,Texture.class);
         assetManager.load("english_alph.png"   ,Texture.class);
+        assetManager.load("black_buttons.png", Texture.class);
 //        assetManager.load("pop3.ogg", Sound.class);
 //        assetManager.load("pingpongbat.ogg",Sound.class);
 
@@ -118,6 +121,8 @@ public class Assets implements Disposable, AssetErrorListener {
         garbAsserts = new GarbAsserts(garbL);
 
         englAlphAssets = new EnglAlphAssets(alphText);
+
+        controlArrows = new ControlArrows( (Texture) assetManager.get("black_buttons.png") );
 
         generateHudFont();
 
@@ -298,6 +303,37 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    public class ControlArrows {
+        private static final int FRAME_COLS = 2; // #1
+        private static final int FRAME_ROWS = 2; // #2
+
+        List<TextureRegion> arrows; // #5
+
+
+        private ControlArrows (Texture texture) {
+            TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth()/FRAME_COLS,
+                    texture.getHeight()/FRAME_ROWS); // #10
+
+            int index = 0;
+            arrows = new ArrayList<>();
+            for (int i = 0; i < FRAME_ROWS; i++) {
+                for (int j = 0; j < FRAME_COLS; j++) {
+                    TextureRegion reg = tmp[i][j];
+                    arrows.add(reg);
+                }
+            }
+            Gdx.app.log(TAG,"animation let load");
+        }
+
+        public TextureRegion getLetterTexture (int arrowId) {
+            if (arrowId >= 0 && arrowId < 4 ) {
+                return arrows.get(arrowId);
+            } else {
+                IndexOutOfBoundsException exception = new IndexOutOfBoundsException();
+                throw exception;
+            }
+        }
+    }
 
     private void generateHudFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("zorque.ttf"));

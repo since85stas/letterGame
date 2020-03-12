@@ -14,11 +14,7 @@ public class GameScreenHud {
 
     String endText;
 
-
-
     GameScreen gameScreen;
-
-
 
     public GameScreenHud ( GameScreen gameScreen) {
         this.gameScreen = gameScreen;
