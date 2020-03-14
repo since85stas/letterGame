@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import stas.batura.utils.Assets;
+import stas.batura.utils.ScreensConstants;
 
 public class Hero {
     Texture texture;
@@ -16,7 +17,6 @@ public class Hero {
     private int width;
     private int height;
     private int lives = 1;
-    int herosize;
     public Rectangle hitBox;
 
     public boolean leftButtonPressed ;
@@ -27,7 +27,6 @@ public class Hero {
     public Hero() {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
-        herosize = Math.round(height * 0.15f) ;
         texture = Assets.instance.heroAsserts.textHero;
         position = new Vector2(100f,300f);
         speed = 5f;
@@ -35,7 +34,11 @@ public class Hero {
     }
 
     public  void render (SpriteBatch batch) {
-        batch.draw(texture,position.x,position.y,herosize,herosize);
+        batch.draw(texture,
+                position.x,
+                position.y,
+                ScreensConstants.instance.heroSize,
+                ScreensConstants.instance.heroSize);
     }
 
     public void update () {
@@ -68,7 +71,9 @@ public class Hero {
             }
 
         // перемещаем рамку за игроком
-        hitBox = new Rectangle(position.x,position.y,herosize * 0.8f,herosize *0.8f);
+        hitBox = new Rectangle(position.x,position.y,
+                ScreensConstants.instance.heroSize * 0.8f,
+                ScreensConstants.instance.heroSize *0.8f);
 
         if (position.x < 0) {
             position.x =0;

@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import stas.batura.alphabet.Alphabet;
 import stas.batura.alphabet.AplphabetConsts;
+import stas.batura.utils.ScreensConstants;
 
 public class GameLetter {
 
@@ -25,7 +26,7 @@ public class GameLetter {
     private int height;
     private float ratio;
 
-    int letterSize;
+//    int letterSize;
 
     float time = 0;
 
@@ -37,8 +38,6 @@ public class GameLetter {
         height = Gdx.graphics.getHeight();
         ratio = width/height;
 
-        letterSize = width/16;
-
 //        alphabet = new EnglishAlphabet();
 //        alphabet = new Alphabet(AplphabetConsts.ENGLISH_ID);
         texture = alphabet.getTextureByLetter(letterString);
@@ -49,7 +48,11 @@ public class GameLetter {
 
     public void render (SpriteBatch batch) {
         // TODO: разобраться с размзерами
-        batch.draw( texture,position.x,position.y,letterSize, letterSize * ratio);
+        batch.draw( texture,
+                position.x,
+                position.y,
+                ScreensConstants.instance.gameLettesWidth,
+                ScreensConstants.instance.gameLettesHeight);
     }
 
     public void rebuild(){
@@ -62,7 +65,10 @@ public class GameLetter {
         position.x = position.x - speed;
         position.y = position.y ;
         // перемещаем рамку за игроком
-        hitBox = new Rectangle(position.x,position.y,letterSize * 0.8f,letterSize * ratio* 0.8f);
+        hitBox = new Rectangle(position.x,
+                position.y,
+                ScreensConstants.instance.gameLettesWidth * 0.8f,
+                ScreensConstants.instance.gameLettesHeight * ratio* 0.8f);
         if(position.x < -100) {
             rebuild();
         }

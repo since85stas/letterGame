@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import stas.batura.draw.Hero;
 import stas.batura.utils.Assets;
+import stas.batura.utils.ScreensConstants;
 
 public class OnscreenControls extends InputAdapter {
 
@@ -51,7 +52,7 @@ public class OnscreenControls extends InputAdapter {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
 
-        BUTTON_RADIUS = height*ScreenConst.BUTTON_HEIGHT/2;
+        BUTTON_RADIUS = ScreensConstants.instance.buttonHeight /2;
 
         recalculateButtonPositions();
     }
@@ -156,51 +157,50 @@ public class OnscreenControls extends InputAdapter {
                 Assets.instance.controlArrows.getLetterTexture(1),
                 moveLeftCenter.x - vectorOff.x,
                 height - moveLeftCenter.y - vectorOff.y,
-                height*ScreenConst.BUTTON_HEIGHT ,
-                height*ScreenConst.BUTTON_HEIGHT
+                ScreensConstants.instance.buttonHeight ,
+                ScreensConstants.instance.buttonHeight
         );
 
         batch.draw(
                 Assets.instance.controlArrows.getLetterTexture(0),
                 moveUpCenter.x- vectorOff.x,
                 height- moveUpCenter.y- vectorOff.y,
-                height*ScreenConst.BUTTON_HEIGHT,
-                height*ScreenConst.BUTTON_HEIGHT
+                ScreensConstants.instance.buttonHeight,
+                ScreensConstants.instance.buttonHeight
         );
 
         batch.draw(
                 Assets.instance.controlArrows.getLetterTexture(3),
                 moveDownCenter.x- vectorOff.x,
                 height - moveDownCenter.y- vectorOff.y,
-                height*ScreenConst.BUTTON_HEIGHT,
-                height*ScreenConst.BUTTON_HEIGHT
+                ScreensConstants.instance.buttonHeight,
+                ScreensConstants.instance.buttonHeight
         );
 
         batch.draw(
                 Assets.instance.controlArrows.getLetterTexture(2),
                 moveRightCenter.x- vectorOff.x,
                 height -  moveRightCenter.y- vectorOff.y,
-                height*ScreenConst.BUTTON_HEIGHT,
-                height*ScreenConst.BUTTON_HEIGHT
+                ScreensConstants.instance.buttonHeight,
+                ScreensConstants.instance.buttonHeight
         );
         batch.end();
     }
 
     public void recalculateButtonPositions() {
 
-        Vector2 controlCenter = new Vector2(width-height*ScreenConst.BUTTON_HEIGHT *3,
+        Vector2 controlCenter = new Vector2(width-ScreensConstants.instance.buttonHeight *3,
                 height - height/4);
 
-        moveLeftCenter.set(controlCenter.x - height*ScreenConst.BUTTON_HEIGHT,
+        moveLeftCenter.set(controlCenter.x - ScreensConstants.instance.buttonHeight,
                 controlCenter.y);
 
-        moveRightCenter.set(controlCenter.x + height*ScreenConst.BUTTON_HEIGHT,
+        moveRightCenter.set(controlCenter.x + ScreensConstants.instance.buttonHeight,
                 controlCenter.y);
 
-        moveUpCenter.set(controlCenter.x , controlCenter.y + height*ScreenConst.BUTTON_HEIGHT);
+        moveUpCenter.set(controlCenter.x , controlCenter.y + ScreensConstants.instance.buttonHeight);
 
-
-        moveDownCenter.set(controlCenter.x, controlCenter.y - height*ScreenConst.BUTTON_HEIGHT);
+        moveDownCenter.set(controlCenter.x, controlCenter.y - ScreensConstants.instance.buttonHeight);
         System.out.println("end pos");
     }
 }

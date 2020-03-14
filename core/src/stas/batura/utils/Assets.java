@@ -25,6 +25,7 @@ import static stas.batura.alphabet.AplphabetConsts.*;
 
 import java.sql.Driver;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import stas.batura.alphabet.AplphabetConsts;
@@ -52,6 +53,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public TileAssets tileAssets;
 //    public SkinAssets skinAssets;
     public LockAssets lockAssets;
+    public SkinAssets skinAssets;
     public SoundsBase soundsBase;
 
     public BitmapFont hudFont;
@@ -79,6 +81,20 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("roket.png"   ,Texture.class);
         assetManager.load("english_alph.png"   ,Texture.class);
         assetManager.load("black_buttons.png", Texture.class);
+
+        // loading skin with parameters
+        java.util.Map<String,BitmapFont> fontsByName = initFonts();
+
+        SkinLoader ldr =  new GeneratedFontSkinLoader( new InternalFileHandleResolver() {
+            @Override
+            public FileHandle resolve(String fileName) {
+                Gdx.app.log(TAG,"AssertManager>>>>>>>>>>>>" + fileName);
+                return super.resolve(fileName);
+            }
+        }, fontsByName);
+        assetManager.setLoader( Skin.class, ldr );
+        assetManager.load( "skin/craftacular-ui.atlas", TextureAtlas.class );
+        assetManager.load( "skin/craftacular-ui.json", Skin.class );
 //        assetManager.load("pop3.ogg", Sound.class);
 //        assetManager.load("pingpongbat.ogg",Sound.class);
 
@@ -124,9 +140,48 @@ public class Assets implements Disposable, AssetErrorListener {
 
         controlArrows = new ControlArrows( (Texture) assetManager.get("black_buttons.png") );
 
+        skinAssets = new SkinAssets( (Skin) assetManager.get("skin/craftacular-ui.json") );
+
         generateHudFont();
 
         generateResultFont();
+
+
+    }
+
+    protected java.util.Map<String,BitmapFont> initFonts() {
+
+        Gdx.app.log( "INIT", "Loading fonts..." );
+
+        FileHandle fontFile = Gdx.files.internal("zorque.ttf");
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
+        java.util.Map<String,BitmapFont> fontsByName = new HashMap<String,BitmapFont>();
+        FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        param.borderColor = Color.BLACK;
+        param.borderWidth = 0.5f;
+        param.shadowOffsetX = 1;
+        param.shadowOffsetY = -1;
+        param.shadowColor = Color.BLACK;
+        float ppi = Gdx.graphics.getPpiY();
+        param.size = ScreensConstants.instance.fontSmallSize;
+        fontsByName.put( "small-font", generator.generateFont( param ));
+
+        param.borderColor = Color.BLACK;
+        param.borderWidth = 2;
+        param.shadowOffsetX = 3;
+        param.shadowOffsetY = -3;
+        param.shadowColor = Color.BLACK;
+        param.size = ScreensConstants.instance.fontGameSize;
+        fontsByName.put( "game-font", generator.generateFont( param ));
+
+
+
+//        param.size = (int)(Gdx.graphics.getHeight() *Constants.HUD_FONT_INBALLS);
+//        fontsByName.put( "inball-font", generator.generateFont( param ));
+
+        generator.dispose();
+        return fontsByName;
     }
 
 
@@ -231,8 +286,8 @@ public class Assets implements Disposable, AssetErrorListener {
         public Texture menuTexture;
         public StarAssets(Pixmap pixmap) {
 //            this.texture = texture;
-            Pixmap pixmap_achieve = new Pixmap((int)(ScreensConstants.ACHIEVE_HEIGHT*Gdx.graphics.getWidth()),
-                    (int)(ScreensConstants.ACHIEVE_HEIGHT*Gdx.graphics.getHeight()),
+            Pixmap pixmap_achieve = new Pixmap( ScreensConstants.instance.achieveHeight,
+                    ScreensConstants.instance.achieveHeight,
                     pixmap.getFormat());
             pixmap_achieve.drawPixmap(pixmap,
                     0, 0, pixmap.getWidth(), pixmap.getHeight(),
@@ -335,10 +390,23 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+
+
+    public class SkinAssets {
+
+        public Skin skin;
+
+        public SkinAssets(Skin skin) {
+            this.skin = skin;
+
+        }
+
+    }
+
     private void generateHudFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("zorque.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 70;
+        parameter.size = ScreensConstants.instance.fontGameSize;
         parameter.borderColor = Color.BLACK;
         parameter.borderWidth = 2;
         parameter.shadowOffsetX = 3;
@@ -350,7 +418,7 @@ public class Assets implements Disposable, AssetErrorListener {
     private void generateResultFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("zorque.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 70;
+        parameter.size = ScreensConstants.instance.fontGameSize;
         parameter.borderColor = Color.BLACK;
         parameter.borderWidth = 2;
         parameter.shadowOffsetX = 3;

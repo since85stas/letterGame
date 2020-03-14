@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import stas.batura.screens.GameScreen;
 import stas.batura.utils.Assets;
+import stas.batura.utils.ScreensConstants;
 
 public class MyGdxGame extends Game {
 
@@ -17,6 +18,9 @@ public class MyGdxGame extends Game {
 
 	@Override
 	public void create () {
+
+		// creating sizes
+		ScreensConstants.instance.initScreensConst();
 
 		// создаем текстуры
 		AssetManager am = new AssetManager();
