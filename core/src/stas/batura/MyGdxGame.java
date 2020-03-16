@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import stas.batura.screens.GameScreen;
+import stas.batura.screens.MainMenuScreen;
 import stas.batura.utils.Assets;
 import stas.batura.utils.ScreensConstants;
 
@@ -26,7 +27,13 @@ public class MyGdxGame extends Game {
 		AssetManager am = new AssetManager();
 		Assets.instance.init(am);
 
-		startNewGame();
+//		startNewGame();
+		startMainMenuScreen();
+	}
+
+	public void startMainMenuScreen() {
+		MainMenuScreen mainMenuScreen = new MainMenuScreen(this);
+		setScreen(mainMenuScreen);
 	}
 
 	public void startNewGame() {

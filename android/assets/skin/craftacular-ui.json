@@ -130,8 +130,15 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		up: button
 		over: button-hover
 		disabled: button-disabled
+	},
+
+	menu: {
+		font: main-font
+		up: button
+		over: button-hover
+		disabled: button-disabled
 	}
-}
+},
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
 		font: font

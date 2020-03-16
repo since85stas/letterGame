@@ -45,6 +45,8 @@ public class Assets implements Disposable, AssetErrorListener {
     private Assets() {
     }
 
+    public Texture mainBackTexture;
+
     public StarAssets starAssets;
     public LettersAsserts lettersAsserts;
     public BackAsserts backAsserts;
@@ -81,6 +83,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("roket.png"   ,Texture.class);
         assetManager.load("english_alph.png"   ,Texture.class);
         assetManager.load("black_buttons.png", Texture.class);
+        assetManager.load("fish_test_screen_size.png",Texture.class);
 
         // loading skin with parameters
         java.util.Map<String,BitmapFont> fontsByName = initFonts();
@@ -119,6 +122,9 @@ public class Assets implements Disposable, AssetErrorListener {
 //        Skin mySkin = assetManager.get("skin/craftacular-ui.json");
 
 //        enemyAssets = new EnemyAssets(walkTexture);
+
+        mainBackTexture = assetManager.get("fish_test_screen_size.png");
+
         starAssets       = new StarAssets(starTexture);
         lettersAsserts   = new LettersAsserts(charAtexture,charBtexture);
         backAsserts      = new BackAsserts(backTexture,srtarBackT);
@@ -173,7 +179,7 @@ public class Assets implements Disposable, AssetErrorListener {
         param.shadowOffsetY = -3;
         param.shadowColor = Color.BLACK;
         param.size = ScreensConstants.instance.fontGameSize;
-        fontsByName.put( "game-font", generator.generateFont( param ));
+        fontsByName.put( "main-font", generator.generateFont( param ));
 
 
 
