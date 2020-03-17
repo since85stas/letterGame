@@ -73,6 +73,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("mini_lock.png", Texture.class);
 
         assetManager.load("fish.png"   ,Texture.class);
+        assetManager.load("ouch.png"   ,Texture.class);
 
         assetManager.load("bg.png", Texture.class);
         assetManager.load("star12.tga", Texture.class);
@@ -128,7 +129,7 @@ public class Assets implements Disposable, AssetErrorListener {
         starAssets       = new StarAssets(starTexture);
         lettersAsserts   = new LettersAsserts(charAtexture,charBtexture);
         backAsserts      = new BackAsserts(backTexture,srtarBackT);
-        heroAsserts      = new HeroAsserts(heroTexture);
+        heroAsserts      = new HeroAsserts(heroTexture, (Texture) assetManager.get("ouch.png"));
 //        skinAssets       = new SkinAssets(mySkin);
         lockAssets       = new LockAssets(lockTexture);
 //        soundsBase       = new SoundsBase(bubbleSound,tookSound);
@@ -280,8 +281,10 @@ public class Assets implements Disposable, AssetErrorListener {
     public class HeroAsserts{
 
         public final Texture textHero;
+        public final Texture textColl;
 
-        public HeroAsserts(Texture h) {
+        public HeroAsserts(Texture h, Texture coll) {
+            textColl = coll;
             textHero = h;
         }
     }

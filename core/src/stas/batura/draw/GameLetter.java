@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -15,7 +16,7 @@ import stas.batura.utils.ScreensConstants;
 public class GameLetter {
 
     TextureRegion texture;
-    Vector2 position;
+    public Vector2 position;
     float speed;
 //    int letterNumber;  // номер буквы в алфавите
     public String letterString;
@@ -30,7 +31,7 @@ public class GameLetter {
 
     float time = 0;
 
-    public Rectangle hitBox;
+    public Circle hitBox;
 //    }
 
     public GameLetter( String letterString, Alphabet alphabet) {
@@ -65,10 +66,16 @@ public class GameLetter {
         position.x = position.x - speed;
         position.y = position.y ;
         // перемещаем рамку за игроком
-        hitBox = new Rectangle(position.x,
-                position.y,
-                ScreensConstants.instance.gameLettesWidth * 0.8f,
-                ScreensConstants.instance.gameLettesHeight * ratio* 0.8f);
+//           hitBox = new Rectangle(position.x,
+//                position.y,
+//                ScreensConstants.instance.gameLettesWidth * 0.8f,
+//                ScreensConstants.instance.gameLettesHeight * ratio* 0.8f);
+
+        hitBox = new Circle(position.x + ScreensConstants.instance.gameLettesWidth/2,
+                position.y + ScreensConstants.instance.gameLettesWidth/2,
+                ScreensConstants.instance.heroSize/2*0.8f
+        );
+
         if(position.x < -100) {
             rebuild();
         }

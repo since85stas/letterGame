@@ -30,8 +30,8 @@ import stas.batura.utils.Assets;
 
 public class MainMenuScreen extends InputAdapter implements Screen {
 
-    public static final float BUTTONS_HEIGHT = 0.07f;
-    private final float BUTTONS_WIDTH = 0.8f;
+    public static final float BUTTONS_HEIGHT = 0.08f;
+    private final float BUTTONS_WIDTH = 0.6f;
     public static final float TITLE_UPPER_OFFSET = 0.07f;
     public static final float BUTTONS_UPPER_OFFSET = 0.15f;
     public static final float BUTTONS_BETWEEN_SPACE = 0.03f;
@@ -81,10 +81,7 @@ public class MainMenuScreen extends InputAdapter implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float fps = 1 / delta;
 
-//        Gdx.app.log("preLevel","fps =" + fps);
-
         batch.begin();
-
         batch.draw(Assets.instance.mainBackTexture,
                 0,
                 0,
@@ -188,7 +185,7 @@ public class MainMenuScreen extends InputAdapter implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("PreScreen", "New Game Pressed");
-
+                mGame.startNewGame();
                 return true;
             }
         });

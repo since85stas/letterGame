@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -127,8 +128,13 @@ public class GameScreen implements Screen {
             for (int i = 0; i < letters.length; i++) {
                 GameLetter currLetter = letters[i];
                 currLetter.update(delta);
-                if (hero.hitBox.overlaps(currLetter.hitBox)) {
+                if (hero.hitBox.overlaps( currLetter.hitBox )) {
                     gameIsFinish = checkCollision(currLetter);
+                    hero.collisionPosition = new Vector2(
+                            (hero.position.x + currLetter.position.x)/2,
+                            (hero.position.y + currLetter.position.y)/2
+                    );
+                    hero.isCollided = true;
                 }
             }
         } else {
@@ -165,19 +171,19 @@ public class GameScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("Restart clicked");
-                game.startNewGame();
+                game.startMainMenuScreen();
                 return super.touchDown(event, x, y, pointer, button);
             }
 
 
         });
 
-        exitLable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2 - 200);
+        exitLable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight() - 200);
 
         stage.addActor(exitLable);
 
-        exitLable.setBounds(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2 - 200,
-                stage.getWidth(),stage.getHeight()
+        exitLable.setBounds(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight() - 200,
+                stage.getWidth() *0.4f,stage.getHeight()*0.2f
         );
     }
 
